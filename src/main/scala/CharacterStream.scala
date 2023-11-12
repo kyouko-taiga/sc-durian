@@ -76,7 +76,7 @@ final class CharacterStream(val base: String, offset: Int = 0) extends Iterable[
   }
 
   def iterator: Iterator[Char] = new AbstractIterator[Char] {
-    
+
     private var s = CharacterStream(base, cursor)
 
     def hasNext: Boolean = s.cursor != s.endPosition

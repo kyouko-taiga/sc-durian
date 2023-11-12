@@ -2,7 +2,7 @@ import scala.collection._
 
 /// A parser combinator recognizing tokens.
 final case class TokenParser(kind: Token.Kind) extends Combinator[CharacterStream, Token] {
-  
+
   /// Parses a token of `kind` from `context`.
   def parse(context: CharacterStream): Option[Token] = {
     kind match {
@@ -16,7 +16,7 @@ final case class TokenParser(kind: Token.Kind) extends Combinator[CharacterStrea
   private def parseNumber(context: CharacterStream): Option[Token] = {
     if (context.isEmpty) { return None }
     val s = context.startPosition
-    
+
     // Parse the leading '-', if any.
     if (context.head == '-') { context.setStartPosition(context.positionAfter(s)) }
 
@@ -46,7 +46,7 @@ final case class TokenParser(kind: Token.Kind) extends Combinator[CharacterStrea
             val t = Token(Token.Kind.String, context.startPosition until context.endPosition)
             context.setStartPosition(f)
             Some(t)
-          
+
           case None => {
             val t = Token(Token.Kind.Error, context.startPosition until context.endPosition)
             context.setStartPosition(context.endPosition)
@@ -81,7 +81,7 @@ extension (self: Token.Kind) {
 sealed trait JSONTree
 
 object JSONTree {
-  
+
   /// A literal value.
   final case class Literal(token: Token) extends JSONTree
 
