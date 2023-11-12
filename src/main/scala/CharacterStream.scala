@@ -28,6 +28,9 @@ final class CharacterStream(val base: String, offset: Int = 0) extends Iterable[
   /// Returns `true` iff `this` is empty.
   override def isEmpty: Boolean = cursor == endPosition
 
+  /// The character at the head of the stream.
+  override def head: Char = base.charAt(startPosition)
+
   /// Returns the first position in which a character satisfies `predicate`, or `None` if no
   /// character exists.
   ///

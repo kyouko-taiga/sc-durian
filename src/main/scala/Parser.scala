@@ -14,11 +14,25 @@ final case class TokenParser(kind: Token.Kind) extends Combinator[CharacterStrea
 
   /// Parses and returns a number literal from `context`.
   private def parseNumber(context: CharacterStream): Option[Token] = {
-    val e = context.firstPosition((c) => !c.isDecDigit).getOrElse(context.endPosition)
-    if (e == context.startPosition) { return None }
+    if (context.isEmpty) { return None }
+    val s = context.startPosition
     
-    val t = Token(Token.Kind.Number, context.startPosition until e)
+    // Parse the leading '-', if any.
+    if (context.head == '-') { context.setStartPosition(context.positionAfter(s)) }
+
+    // Parse the decimal part.
+    var e = context.firstPosition((c) => !c.isDecDigit).getOrElse(context.endPosition)
+    if (e == s) { return None }
     context.setStartPosition(e)
+
+    // Parse the fractional part, if any.
+    if (context.head == '.') {
+      context.setStartPosition(context.positionAfter(e))
+      e = context.firstPosition((c) => !c.isDecDigit).getOrElse(context.endPosition)
+      context.setStartPosition(e)
+    }
+
+    val t = Token(Token.Kind.Number, s until e)
     return Some(t)
   }
 
