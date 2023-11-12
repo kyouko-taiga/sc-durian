@@ -6,5 +6,6 @@ lazy val root = project
     name                                   := "sc-durian",
     version                                := "0.1.0-SNAPSHOT",
     scalaVersion                           := scala3Version,
+    scalacOptions ++= Seq("-optimize"),
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.29" % Test)
   .settings(assembly / assemblyJarName := "sc-durian.jar")
